@@ -36,6 +36,7 @@
 static Info *OpenDeviceB(char *Name);
 static void WriteDeviceB(Info* Device, char *Data);
 static void CloseDeviceB(Info* Device);
+static int ReadDeviceB(char *Data, int maxLength);
 
 /* module data declaration */
 
@@ -45,7 +46,8 @@ Device DeviceB = {
        .Name = "DeviceB",
        .Write = WriteDeviceB,
        .Open  = OpenDeviceB,
-       .Close = CloseDeviceB
+       .Close = CloseDeviceB,
+	   .Read  = ReadDeviceB
 };
 
 /*****************************************************************************/
@@ -155,6 +157,26 @@ static void WriteDeviceB(Info* Device, char *Data)
 /*****************************************************************************/
 /*  End         : WriteDeviceB                                               */
 /*****************************************************************************/
+
+static int ReadDeviceB(char *Data, int maxLength)
+{
+	printf("Enter string for device B [max %d]: ", maxLength);
+	for(int i = 0; i < maxLength; i++)
+	{
+		Data[i] = (char)getchar();
+		if((char)Data[i] == '\n')
+		{
+			Data[i] = '\0';
+			break;
+		}
+		else if(i >= (maxLength-1))
+		{
+			Data[maxLength-1] = '\0';
+			break;
+		}
+	}
+	return strlen(Data);
+}
 
 /*****************************************************************************/
 /*  End Module  : Device B                                                   */

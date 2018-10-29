@@ -27,7 +27,7 @@
 #include "devicemanager.h"
 
 /* module constant declaration */
-#define BUFFER_LENGTH 20
+#define BUFFER_LENGTH 10
 
 /* module type declaration */
 
@@ -82,16 +82,16 @@ int main(int argc, char *argv[])
   Device = OpenDevice("DeviceA", "Fritz");
   if (Device != NULL) {
      WriteDevice(Device, "Welt");
-     CloseDevice(Device);
      int Length = ReadDevice(Device, Buffer, BUFFER_LENGTH);
      if ((Length < 0) || (Length >= BUFFER_LENGTH)) {
         Length = 0;
      }
      Buffer[Length] = 0;
      printf("<Read [%s]>\n", Buffer);
+	 CloseDevice(Device);
   }
   
-  system("PAUSE");	
+  //system("PAUSE");	
   return 0;
 }
 /*****************************************************************************/

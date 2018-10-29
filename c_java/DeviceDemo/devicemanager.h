@@ -35,12 +35,14 @@ typedef struct DeviceInfo Info;
 typedef void    (*WriteHandlerPtr)(Info* Device, char *Data);
 typedef Info*   (*OpenHandlerPtr) (char *Name);
 typedef void    (*CloseHandlerPtr)(Info* Device);
+typedef int 	(*ReadHandlerPtr)(char *Data, int maxLength);
 
 typedef struct Device {
    char            *Name;
    WriteHandlerPtr  Write;
    OpenHandlerPtr   Open;
    CloseHandlerPtr  Close;
+   ReadHandlerPtr	Read;
 } Device;
 
 struct DeviceInfo {

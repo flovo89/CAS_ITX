@@ -192,7 +192,9 @@ int ReadDevice(Info *Device, char *Buffer, int Length)
 
    /* just propagate the call on valid device */
 
-   // To Do, not implemented yet...
+   if (Device != NULL) {
+      return Device->MyDevice->Read(Buffer, Length);
+   }
 
    return 0;
 }

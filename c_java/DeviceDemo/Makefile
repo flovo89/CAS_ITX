@@ -47,37 +47,25 @@ EXEC_NAME	= DeviceDemo
 # Installation variables like scripts images etc.
 SHELL_SCRIPT	= 
 IMAGES		=
-INSTALL		= install
 INSTALL_DIR	= ${TARGET_ROOTFS}
 
 # Files needed for the build
-OBJS 		= ${EXEC_NAME}.o
+SOURCES		= $(wildcard *.c)
+OBJECTS 	= $(patsubst %.c, %.o, $(SOURCES))
 
 # Make rules
-all:		${EXEC_NAME}
+all: ${EXEC_NAME}
 
-${EXEC_NAME}:	$(OBJS)
-		$(CC) -o $(EXEC_NAME) ${OBJS} $(LDFLAGS)
+${EXEC_NAME}: ${OBJECTS}
+		$(CC) $^ -o $@ $(LDFLAGS)
 
 %.o: %.c
-		$(CC) -c $(HEADER) $(CFLAGS) $<
-
-install:	${EXEC_NAME}
-		test -d $(INSTALL_DIR) || $(INSTALL) -d -m 755 $(INSTALL_DIR)
-		$(INSTALL) -m 755 $(EXEC_NAME) $(SHELL_SCRIPT) $(IMAGES) $(INSTALL_DIR)
-
-asm:		
-		@if [ -a $(EXEC_NAME) ]; then ${OBJDUMP} -C -D -S -l $(EXEC_NAME) > $(EXEC_NAME).S; \
-		else echo "You must first run make!"; fi;
-doc:
-		doxygen
+		$(CC) $(CFLAGS) -c $<
 
 clean:
-		rm -f *.o $(EXEC_NAME)
-distclean:
 		rm -f *~
 		rm -f *.S
 		rm -f *.map
-		rm -f *.o $(EXEC_NAME) 
-		rm -r doc
+		rm -f *.o
+		rm -f $(EXEC_NAME) 
 
