@@ -42,7 +42,7 @@ LIBS		= -lm -lrt
 LDFLAGS 	= ${LIB_PATH} $(LIBS) -Wl,-Map=${EXEC_NAME}.map -L${ARM64_SYS_LIB} -L${ARM64_USR_LIB} -L${ARM64_LIB} -L${LOCAL_LIB}
 
 # Name of Executable
-EXEC_NAME	= appSysFsTemplate
+EXEC_NAME	= TESTAT_1_Toolchain
 
 # Installation variables like scripts images etc.
 SHELL_SCRIPT	= 
@@ -51,20 +51,21 @@ INSTALL		= install
 INSTALL_DIR	= ${TARGET_ROOTFS}/usr/local/bin
 
 # Files needed for the build
-OBJS 		= ${EXEC_NAME}.o
+SOURCES		= $(wildcard *.c)
+OBJS	 	= $(patsubst %.c, %.o, $(SOURCES))
 
 # Make rules
 all:		${EXEC_NAME}
 
-${EXEC_NAME}:	$(OBJS)
-		$(CC) -o $(EXEC_NAME) ${OBJS} $(LDFLAGS)
+${EXEC_NAME}: ${OBJS}
+		$(CC) $^ -o $@ $(LDFLAGS)
 
 %.o: %.c
 		$(CC) -c $(HEADER) $(CFLAGS) $<
 
 install:	${EXEC_NAME}
 		test -d $(INSTALL_DIR) || $(INSTALL) -d -m 755 $(INSTALL_DIR)
-		$(INSTALL) -m 755 $(EXEC_NAME) $(SHELL_SCRIPT) $(IMAGES) $(INSTALL_DIR)
+	 	sudo $(INSTALL) -m 755 $(EXEC_NAME) $(SHELL_SCRIPT) $(IMAGES) $(INSTALL_DIR)
 
 asm:		
 		@if [ -a $(EXEC_NAME) ]; then ${OBJDUMP} -C -D -S -l $(EXEC_NAME) > $(EXEC_NAME).S; \
@@ -73,7 +74,7 @@ doc:
 		doxygen
 
 clean:
-		rm -f *.o $(EXEC_NAME)
+		rm -f *.o $(EXEC_NAME) *.map
 distclean:
 		rm -f *~
 		rm -f *.S

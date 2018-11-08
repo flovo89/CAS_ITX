@@ -154,10 +154,20 @@ void signal_ctrlc_handler(int sig_num)
   printf("\nExit app by pressing Ctrl-C!\n\n");
 
   /******** BEGIN INSERT YOUR CODE HERE *******/
-
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L1], OFF);
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L2], OFF);
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L3], OFF);
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L4], OFF);
+	
   /* Unexport all selected gpios */
   sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_led[L1], NULL);
   sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_button[T1], NULL);
+  sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_led[L2], NULL);
+  sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_button[T2], NULL);
+  sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_led[L3], NULL);
+  sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_button[T3], NULL);
+  sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_led[L4], NULL);
+  sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_button[T4], NULL);
 
   /******** END INSERT YOUR CODE HERE *******/
 
@@ -283,8 +293,8 @@ int main(int argc, char **argv)
   char button3;
   char button4;
   struct itimerval timer = {{0}};
-  bool directionUpwards = false;
-  unsigned char currentled = 0;
+  bool directionUpwards = true;
+  int currentled = 0;
   int sleeptime = 100;  
 
   /* Register signal and signal handler */
@@ -333,7 +343,7 @@ int main(int argc, char **argv)
   /* Toggle LED-1 until Button T1 or Ctrl/C is pressed */
   printf("\nExercise 5: Lab Lauflicht\n");
   printf("--------------------------------------------------\n\n");
-  printf("Terminate program by pressing Ctrl-C\n\n");
+  printf("Terminate program by pressing Ctrl-C or T1\n\n");
 
   while (true)
    {
@@ -341,18 +351,16 @@ int main(int argc, char **argv)
      if(directionUpwards)
      {
     	currentled++;
-      	currentled%=3;
+      	currentled%=4;
      }	
      else
      {
 	if(currentled == 0)
 	{
-	     currentled = 3;
+	     currentled = 4;
 	}
-	else
-	{
-	     currentled--;
-	}
+	currentled--;
+
      }
 
      switch(currentled)
@@ -389,22 +397,27 @@ int main(int argc, char **argv)
 		sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L4], ON);
 		break;
 	}
+	default:
+	{
+		break;
+	}
      }
 
      delay(sleeptime);
 
-     /* Check button T1 status, press it for more than one second */
      sysfs_gpio_handler(GPIO_SYSFS_GET_VALUE, gpio_button[T1], &button1);
      if (button1 == PRESSED)
       break;
 
      sysfs_gpio_handler(GPIO_SYSFS_GET_VALUE, gpio_button[T2], &button2);
      if (button2 == PRESSED)
-      sleeptime/=2;
+      if(sleeptime >= 13)
+	sleeptime/=2;
 
      sysfs_gpio_handler(GPIO_SYSFS_GET_VALUE, gpio_button[T3], &button3);
      if (button3 == PRESSED)
-      sleeptime*=2;
+      if(sleeptime < 100)
+	sleeptime*=2;
 
      sysfs_gpio_handler(GPIO_SYSFS_GET_VALUE, gpio_button[T4], &button4);
      if (button4 == PRESSED)
@@ -415,7 +428,11 @@ int main(int argc, char **argv)
   
   /******** BEGIN INSERT YOUR CODE HERE *******/
 
-
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L1], OFF);
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L2], OFF);
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L3], OFF);
+  sysfs_gpio_handler(GPIO_SYSFS_SET_VALUE, gpio_led[L4], OFF);
+	
   /* Unexport all selected gpios */
   sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_led[L1], NULL);
   sysfs_gpio_handler(GPIO_SYSFS_UNEXPORT, gpio_button[T1], NULL);
