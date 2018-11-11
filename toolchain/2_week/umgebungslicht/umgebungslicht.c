@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <linux/i2c-dev.h>
+#include <math.h>
 
 /* MAX44009 Register pointers */
 #define MAX44009_LUX_HIGH (0x03)
@@ -47,7 +48,7 @@ int main(int argc, char** argv)
  i2cCommBuffer[0] = MAX44009_LUX_HIGH;
  if(write(i2c_fd, i2cCommBuffer, 1) != 1) perror("write error");
  if(read(i2c_fd, i2cCommBuffer, 1) != 1) perror("read error");
- Mantissa |= ((i2cCommBuffer[0] & 0x04) << 4);
+ Mantissa |= ((i2cCommBuffer[0] & 0x0F) << 4);
  Exponent = ((i2cCommBuffer[0] & 0xF0) >> 4);
  close(i2c_fd);
 
