@@ -1,3 +1,4 @@
 *.o
 *.a
 *.map
+*.class

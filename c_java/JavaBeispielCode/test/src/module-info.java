@@ -1,0 +1,9 @@
+/**
+ * 
+ */
+/**
+ * @author ivooesch
+ *
+ */
+module test {
+}
