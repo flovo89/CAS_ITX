@@ -1,0 +1,21 @@
+# Embedded-Linux (BTE5446)
+# Set make environment variables for the target
+# Version: 1.0
+# File:    make_env_target
+# Date:    04.10.2013
+# Author   Martin Aebersold (AOM1)
+#
+# Last Modifications: V1.0, AOM1, 04.10.2013
+# Initial release
+
+export TARGET = /opt/crosstools/gcc-linaro-6.4.1-2018.05-i686_aarch64-linux-gnu/bin/aarch64-linux-gnu
+export TARGET_ROOTFS = /opt/embedded/firefly/rootfs
+export LOCAL_INC = /opt/embedded/firefly/rootfs/usr/local/include
+export LOCAL_LIB = /opt/embedded/firefly/rootfs/usr/local/lib
+export SYSTEM_INC = /opt/embedded/firefly/rootfs/usr/include
+export ARM64_SYS_LIB = /opt/embedded/firefly/rootfs/lib/aarch64-linux-gnu
+export ARM64_USR_LIB = /opt/embedded/firefly/rootfs/usr/lib
+export ARM64_LIB = /opt/embedded/firefly/rootfs/usr/lib/aarch64-linux-gnu
+export LIB_PATH= -Xlinker -rpath-link=${ARM64_SYS_LIB} -Xlinker -rpath-link=${ARM64_USR_LIB} -Xlinker -rpath-link=${ARM64_LIB} -Xlinker -rpath-link=${ARM64_LIB}/pulseaudio
+export EXTRA_CFLAGS = -mcpu=cortex-a53
+
