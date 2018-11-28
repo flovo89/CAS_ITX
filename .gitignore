@@ -1,4 +1,9 @@
 *.o
+*.o*
 *.a
 *.map
 *.class
+*.ko
+*.ko*
+*.mod*
+*.tmp*

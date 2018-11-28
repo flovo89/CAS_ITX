@@ -22,7 +22,7 @@
 #include <linux/module.h>	/* Kernel module stuff and macros */
 
 #define MOD_LICENSE 		"GPL"
-#define MOD_AUTHOR 		"Martin Aebersold  <martin.aebersold@bfh.ch>"
+#define MOD_AUTHOR 		"Florian Vogel  <flovo89@hotmail.com>"
 #define MOD_DESCRIPTION 	"Simple hello device driver"
 #define MODULE_NAME 		"hello"
 
